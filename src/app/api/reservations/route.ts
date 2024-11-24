@@ -4,7 +4,14 @@ import { prisma } from "@/utils/prisma";
 export async function GET() {
   try {
     // Listado de todas las reservas
-    const reservations = await prisma.reservations.findMany();
+    const reservations = await prisma.reservations.findMany({
+      orderBy: [
+        { date: 'asc' },
+        { time: 'asc' },
+      ],
+    });
+    console.log(reservations[0].date) // "2024-11-24"
+    console.log(reservations[0].time) // "18:43"
     return NextResponse.json({
       message: "Obtener Reservaciones",
       data: reservations
